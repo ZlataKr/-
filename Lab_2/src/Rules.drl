@@ -1,0 +1,28 @@
+dialect  "mvel"
+
+rule "Birthday Promotion"
+    when
+    b : Book( author() = "Haruki Murakami")
+    then
+    newprice = (int) (b.price * 0.5);
+    System.out.println("50% discount on the author's . New price: " + newprice);
+end
+
+rule "Stock Rule"
+    when
+    b : Book( amount() > 7 )
+    then
+    newprice = (int) (b.price * 0.8);
+    System.out.println("Sale! 20% discount for books from stock. New Price: " + newprice);
+end
+
+rule "Sale.Bonus"
+    when
+    b : Book( author() = "Mark Levi" && amount() > 10)
+    then
+    newprice = (int) (b.price * 0.2);
+    System.out.println("80% off book and next purchase bonus. New Price: " + newprice);
+    b.client.bonus = true;
+    System.out.print("Bonus: " + b.client.bonus);
+end
+
